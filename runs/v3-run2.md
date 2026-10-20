@@ -1,3 +1,14 @@
+# v3-run2
+
+| Field | Value |
+|---|---|
+| Prompt | [v3](../prompts/v3.md), pasted unchanged |
+| Model | Claude Opus 5.5, as shown in the chat's model selector on claude.ai |
+| Date | 2026-10-19 |
+| Context | New chat outside any project, no files attached |
+| Account memory / past-chat search | Not recorded (UNKNOWN) |
+| Output | 46 test cases, as returned by the model |
+
 | TC ID | Title | Category | AC ID | Preconditions | Steps | Test Data | Expected Result | Priority | Notes |
 |---|---|---|---|---|---|---|---|---|---|
 | TC-001 | End-to-end booking of Single room with dates chosen on home page | Happy path | AC1, AC2, AC3, AC9 | Home page https://automationintesting.online is open. | 1. In "Check Availability & Book Your Stay", set Check In to 10/03/2027 and Check Out to 13/03/2027 (type or use the date picker).<br>2. Click "Check Availability".<br>3. In "Our Rooms", click "Book now" on the Single card.<br>4. Check the browser address bar.<br>5. In the "Book This Room" calendar, click Next until March 2027 is shown (5 clicks).<br>6. Check "Price Summary".<br>7. Click "Reserve Now".<br>8. Fill Firstname, Lastname, Email, Phone.<br>9. Click "Reserve Now" again. | Check In: 10/03/2027<br>Check Out: 13/03/2027<br>Firstname: José<br>Lastname: Serna<br>Email: jose.serna@example.com<br>Phone: +523312345678 | Step 2: Single card is listed in "Our Rooms".<br>Step 4: URL is /reservation/1?checkin=2027-03-10&checkout=2027-03-13.<br>Step 5: March 2027 calendar shows the "Selected" bar starting on 10 March and covering the nights of 10, 11 and 12 March; no other dates are marked as selected.<br>Step 6: Price Summary shows £100 × 3 nights = £300, cleaning fee £25, service fee £15, total £340.<br>Step 9: The panel is replaced by "Booking Confirmed", the text "Your booking has been confirmed for the following dates:", the range 2027-03-10 - 2027-03-13 and a "Return home" button. No error box, no error page. | High | Precondition check: if the Single card is not listed in step 2, the range is already booked on the shared demo; choose another 3-night range and adjust expected dates. Whether the check-out day (13) is drawn inside the bar is an assumption. |

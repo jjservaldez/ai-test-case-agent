@@ -1,3 +1,14 @@
+# v2-run2
+
+| Field | Value |
+|---|---|
+| Prompt | [v2](../prompts/v2.md), pasted unchanged |
+| Model | Claude Opus 5.5, as shown in the chat's model selector on claude.ai |
+| Date | 2026-10-18 |
+| Context | New chat outside any project, no files attached |
+| Account memory / past-chat search | Not recorded (UNKNOWN) |
+| Output | 42 test cases, as returned by the model |
+
 | TC ID | Title | Category | AC ID | Preconditions | Steps | Test Data | Expected Result | Priority | Notes |
 |---|---|---|---|---|---|---|---|---|---|
 | TC-001 | Book a Single room end-to-end with dates chosen on the home page | Happy path | AC1, AC2, AC3, AC9 | App home page reachable. Single room has no bookings for the chosen dates. | 1. Open https://automationintesting.online<br>2. In the home page availability section, set Check In and Check Out using the date pickers<br>3. Click "Check Availability"<br>4. On the Single room card, click "Book now"<br>5. Check the URL and the dates shown on the room page<br>6. Check the price summary panel<br>7. Click "Reserve Now"<br>8. Fill Firstname, Lastname, Email, Phone<br>9. Click "Reserve Now" again | Check In = today+10, Check Out = today+13 (3 nights). Firstname: Maria. Lastname: Lopez. Email: maria.lopez@example.com. Phone: 01234567890 | Step 5: room page shows today+10 to today+13 (URL parameters and on-page dates match). Step 6: price summary shows £100 × 3 nights = £300, cleaning fee £25, service fee £15, total £340. Step 9: "Booking Confirmed" message appears in the booking panel showing today+10 to today+13; no error page; the same dates now appear as unavailable for this room. | High | |

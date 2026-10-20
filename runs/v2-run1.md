@@ -1,3 +1,14 @@
+# v2-run1
+
+| Field | Value |
+|---|---|
+| Prompt | [v2](../prompts/v2.md), pasted unchanged |
+| Model | Claude Opus 5.5, as shown in the chat's model selector on claude.ai |
+| Date | 2026-10-18 |
+| Context | New chat outside any project, no files attached |
+| Account memory / past-chat search | Not recorded (UNKNOWN) |
+| Output | 44 test cases, as returned by the model |
+
 | TC ID | Title | Category | AC ID | Preconditions | Steps | Test Data | Expected Result | Priority | Notes |
 |---|---|---|---|---|---|---|---|---|---|
 | TC-001 | Book a Single room end-to-end with dates chosen on the home page | Happy path | AC1, AC2, AC3, AC9 | Home page open. Chosen dates are free for the Single room. | 1. On the home page, set Check In and Check Out in the booking date fields.<br>2. Click "Check Availability".<br>3. Click "Book now" on the Single room card.<br>4. On the room page, read the selected dates in the calendar and the URL.<br>5. Read the price summary.<br>6. Click "Reserve Now".<br>7. Fill in all fields with the test data and click "Reserve Now" again.<br>8. Read the confirmation message. | Check In: D+30, Check Out: D+32 (D = today)<br>Firstname: John<br>Lastname: Smith<br>Email: john.smith@example.com<br>Phone: 07123456789 | Step 4: the calendar highlights D+30 to D+32 and the URL contains the same check-in and check-out dates.<br>Step 5: the summary shows £100 × 2 nights = £200, cleaning fee £25, service fee £15, total £240.<br>Step 6: the form shows Firstname, Lastname, Email, Phone and a "Cancel" button.<br>Step 8: a "Booking Confirmed" message appears in the booking area and shows exactly D+30 to D+32 (not today's date or any other range). No error page appears. | High | D = today. Use dates no other test uses. |

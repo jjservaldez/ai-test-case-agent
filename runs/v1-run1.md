@@ -1,3 +1,14 @@
+# v1-run1
+
+| Field | Value |
+|---|---|
+| Prompt | [v1](../prompts/v1.md), pasted unchanged |
+| Model | Claude Opus 5.5, as shown in the chat's model selector on claude.ai |
+| Date | 2026-10-17 |
+| Context | New chat outside any project, no files attached |
+| Account memory / past-chat search | Not recorded (UNKNOWN) |
+| Output | 40 test cases, as returned by the model |
+
 | TC ID | Title | Category | AC ID | Preconditions | Steps | Test Data | Expected Result | Priority | Notes |
 |---|---|---|---|---|---|---|---|---|---|
 | TC-001 | Book a Single room end-to-end with valid data | Happy path | AC1, AC3, AC9 | The home page https://automationintesting.online is open. The selected date range is not already booked for the Single room. | 1. On the home page, set Check In and Check Out.<br>2. Click the booking action for the Single room.<br>3. On the room page, click "Reserve Now".<br>4. Fill in Firstname, Lastname, Email and Phone.<br>5. Click "Reserve Now" to submit. | Check In: available future date D<br>Check Out: D+2<br>Firstname: John<br>Lastname: Smith<br>Email: john.smith@example.com<br>Phone: 07700900123 | A "Booking Confirmed" message is shown with the date range D to D+2. | High | — |

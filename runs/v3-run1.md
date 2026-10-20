@@ -1,3 +1,14 @@
+# v3-run1
+
+| Field | Value |
+|---|---|
+| Prompt | [v3](../prompts/v3.md), pasted unchanged |
+| Model | Claude Opus 5.5, as shown in the chat's model selector on claude.ai |
+| Date | 2026-10-19 |
+| Context | New chat outside any project, no files attached |
+| Account memory / past-chat search | Not recorded (UNKNOWN) |
+| Output | 48 test cases, as returned by the model |
+
 | TC ID | Title | Category | AC ID | Preconditions | Steps | Test Data | Expected Result | Priority | Notes |
 |---|---|---|---|---|---|---|---|---|---|
 | TC-001 | Book a Single room end to end with dates chosen on the home page | Happy path | AC1, AC2, AC3, AC9 | Browser open. Single room free for 09/11/2026–11/11/2026. | 1. Open https://automationintesting.online.<br>2. In "Check Availability & Book Your Stay", set Check In and Check Out to the test data dates.<br>3. Click "Check Availability".<br>4. In "Our Rooms", on the Single card click "Book now".<br>5. Check the address bar URL.<br>6. In the "Book This Room" panel, click "Next" once (to November) and check the calendar.<br>7. Check the Price Summary.<br>8. Click "Reserve Now".<br>9. Type the contact data into Firstname, Lastname, Email, Phone.<br>10. Click "Reserve Now" again.<br>11. Check the "Book This Room" panel. | Check In: `09/11/2026`<br>Check Out: `11/11/2026`<br>Firstname: `Maria`<br>Lastname: `Gonzalez`<br>Email: `maria.gonzalez@example.com`<br>Phone: `+523312345678` | Step 4: "Our Rooms" lists the Single card.<br>Step 5: URL is https://automationintesting.online/reservation/1?checkin=2026-11-09&checkout=2026-11-11.<br>Step 6: November calendar shows the "Selected" bar on 9 and 10 November (not on other days).<br>Step 7: Price Summary shows £100 × 2 nights = £200, Cleaning fee £25, Service fee £15, Total £240.<br>Step 8: Form with Firstname, Lastname, Email, Phone and a "Cancel" button appears.<br>Step 11: Panel is replaced by "Booking Confirmed", the text "Your booking has been confirmed for the following dates:" and `2026-11-09 - 2026-11-11`, plus a "Return home" button. No red error box, no error page. | High | Assumption: the range end shown is the check-out date. Shared demo app: if the dates are already taken, shift both dates +7 days and recompute expected values. |
