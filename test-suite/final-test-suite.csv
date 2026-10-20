@@ -1,0 +1,420 @@
+TC ID,Title,Category,AC ID,Preconditions,Steps,Test Data,Expected Result,Priority,Notes,Source,Change from v3,Related bug
+TC-001,Book a Single room end to end with dates chosen on the home page,Happy path,"AC1, AC2, AC3, AC9",Browser open. Single room free for 09/11/2026–11/11/2026.,"1. Open https://automationintesting.online.
+2. In ""Check Availability & Book Your Stay"", set Check In and Check Out to the test data dates.
+3. Click ""Check Availability"".
+4. In ""Our Rooms"", on the Single card click ""Book now"".
+5. Check the address bar URL.
+6. In the ""Book This Room"" panel, click ""Next"" until November 2026 and check the calendar.
+7. Check the Price Summary.
+8. Click ""Reserve Now"".
+9. Type the contact data into Firstname, Lastname, Email, Phone.
+10. Click ""Reserve Now"" again.
+11. Check the ""Book This Room"" panel.","Check In: 09/11/2026
+Check Out: 11/11/2026
+Firstname: Maria
+Lastname: Gonzalez
+Email: maria.gonzalez@example.com
+Phone: +523312345678","Step 4: ""Our Rooms"" lists the Single card.
+Step 5: URL is https://automationintesting.online/reservation/1?checkin=2026-11-09&checkout=2026-11-11.
+Step 6: November calendar shows the ""Selected"" bar on 9 and 10 November (not on other days).
+Step 7: Price Summary shows £100 × 2 nights = £200, Cleaning fee £25, Service fee £15, Total £240.
+Step 8: Form with Firstname, Lastname, Email, Phone and a ""Cancel"" button appears.
+Step 11: Panel is replaced by ""Booking Confirmed"", the text ""Your booking has been confirmed for the following dates:"" and 2026-11-09 - 2026-11-11, plus a ""Return home"" button. No red error box, no error page.",High,"Assumption: the range end shown is the check-out date. Shared demo app: if the dates are already taken, shift both dates +7 days and recompute expected values.",v3 TC-001,Step 6 no longer depends on the run date.,
+TC-002,Book a Double room for today using the prefilled home page dates,Happy path,"AC1, AC2, AC9",Browser open. Executed on 19/10/2026. Double room free for tonight.,"1. Open https://automationintesting.online.
+2. In ""Check Availability & Book Your Stay"", check the prefilled Check In and Check Out values without changing them.
+3. In ""Our Rooms"", on the Double card click ""Book now"".
+4. Check the address bar URL.
+5. Check the calendar in the ""Book This Room"" panel.
+6. Check the Price Summary.
+7. Click ""Reserve Now"", type the contact data, click ""Reserve Now"" again.
+8. Check the panel.","Check In (prefilled): 19/10/2026
+Check Out (prefilled): 20/10/2026
+Firstname: Maria
+Lastname: Gonzalez
+Email: maria.gonzalez@example.com
+Phone: +523312345678","Step 2: Check In = 19/10/2026, Check Out = 20/10/2026.
+Step 4: URL is /reservation/2?checkin=2026-10-19&checkout=2026-10-20.
+Step 5: Calendar opens on October 2026 with 19 highlighted as today and a ""Sel…"" bar on 19.
+Step 6: £150 × 1 night = £150, Cleaning fee £25, Service fee £15, Total £190.
+Step 8: ""Booking Confirmed"" with 2026-10-19 - 2026-10-20 and a ""Return home"" button.",High,"If run on another day, use that day and the next day and adjust the URL and range. The room policy says check-in 3:00–8:00 PM; if run after 8:00 PM, record what the app does and raise with the PO (no rule stated for same-day bookings).",v3 TC-002,No change,
+TC-003,Price Summary is correct for a 3-night Suite stay,Happy path,"AC1, AC2",Browser open.,"1. Open https://automationintesting.online.
+2. Set Check In and Check Out to the test data dates.
+3. Click ""Check Availability"".
+4. On the Suite card click ""Book now"".
+5. Check the URL and the Price Summary in the ""Book This Room"" panel.","Check In: 07/12/2026
+Check Out: 10/12/2026","URL is /reservation/3?checkin=2026-12-07&checkout=2026-12-10.
+Price Summary: £225 × 3 nights = £675, Cleaning fee £25, Service fee £15, Total £715. Night count is exactly 3 (not 4).",High,No booking is submitted.,v3 TC-003,No change,
+TC-004,"First click on ""Reserve Now"" shows the form and ""Cancel"" without booking",Happy path,AC3,Open in the address bar: https://automationintesting.online/reservation/1?checkin=2026-11-23&checkout=2026-11-25,"1. Check the ""Book This Room"" panel before clicking.
+2. Click ""Reserve Now"" once.
+3. Check the panel.",None,"Step 1: No form fields are visible; ""Reserve Now"" is visible.
+Step 3: Empty Firstname, Lastname, Email and Phone fields and a ""Cancel"" button appear in the panel; ""Reserve Now"" is still visible. No ""Booking Confirmed"", no red error box. Price Summary still shows £100 × 2 nights = £200, £25, £15, Total £240.",High,,v3 TC-004,No change,
+TC-005,"""Cancel"" closes the form without booking",UX,AC3,Open in the address bar: https://automationintesting.online/reservation/1?checkin=2026-11-26&checkout=2026-11-28,"1. Click ""Reserve Now"".
+2. Type the Firstname value.
+3. Click ""Cancel"".
+4. Check the panel.
+5. Click ""Reserve Now"" again.
+6. Check the panel.",Firstname: Maria,"Step 4: Form fields and ""Cancel"" are hidden; ""Reserve Now"" is visible; no ""Booking Confirmed""; no red error box; Price Summary unchanged (£200, £25, £15, Total £240); URL unchanged.
+Step 6: Form and ""Cancel"" appear again. No booking was created.",Medium,Whether the typed Firstname is kept or cleared after Cancel is not specified; record the behavior.,v3 TC-005,No change,
+TC-006,All fields at their minimum valid length are accepted,Edge/Boundary,"AC4, AC5, AC6, AC7, AC9",Open in the address bar: https://automationintesting.online/reservation/1?checkin=2027-01-11&checkout=2027-01-12,"1. Check the Price Summary.
+2. Click ""Reserve Now"".
+3. Type the test data.
+4. Click ""Reserve Now"".
+5. Check the panel.","Firstname: Ana (3)
+Lastname: Lee (3)
+Email: a@b.co
+Phone: 01234567890 (11)","Step 1: £100 × 1 night = £100, £25, £15, Total £140.
+Step 5: ""Booking Confirmed"" with 2027-01-11 - 2027-01-12. No red error box.",High,,v3 TC-006,No change,
+TC-007,All fields at their maximum valid length are accepted,Edge/Boundary,"AC4, AC5, AC7, AC9",Open in the address bar: https://automationintesting.online/reservation/1?checkin=2027-01-13&checkout=2027-01-14,"1. Click ""Reserve Now"".
+2. Type the test data.
+3. Click ""Reserve Now"".
+4. Check the panel.","Firstname: Abcdefghijklmnopqr (18)
+Lastname: Abcdefghijklmnopqrstuvwxyzabcd (30)
+Email: maria.gonzalez@example.com
+Phone: 012345678901234567890 (21)","""Booking Confirmed"" with 2027-01-13 - 2027-01-14. No red error box, no truncation error, no error page.",High,Check the fields accept all characters (no input maxlength cutting the value shorter).,v3 TC-007,No change,
+TC-008,"Names with accents, apostrophe and hyphen are accepted",Happy path,"AC4, AC5, AC9",Open in the address bar: https://automationintesting.online/reservation/2?checkin=2027-02-01&checkout=2027-02-03,"1. Check the Price Summary.
+2. Click ""Reserve Now"".
+3. Type the test data.
+4. Click ""Reserve Now"".
+5. Check the panel.","Firstname: José
+Lastname: O'Brien-Núñez
+Email: jose.obrien@example.com
+Phone: +523312345678","Step 1: £150 × 2 nights = £300, £25, £15, Total £340.
+Step 5: ""Booking Confirmed"" with 2027-02-01 - 2027-02-03. No red error box, no garbled characters, no error page.",High,Stored name spelling can only be verified in Admin (credentials not available).,v3 TC-008,No change,
+TC-009,"International phone with country code, spaces, parentheses and dashes is accepted",Edge/Boundary,"AC7, AC9",Open in the address bar: https://automationintesting.online/reservation/1?checkin=2027-01-06&checkout=2027-01-07,"1. Click ""Reserve Now"".
+2. Type the test data.
+3. Click ""Reserve Now"".
+4. Check the panel.","Firstname: Oliver
+Lastname: Smith
+Email: oliver.smith@example.co.uk
+Phone: +44 (20) 7946-0958 (18)","""Booking Confirmed"" with 2027-01-06 - 2027-01-07. No Phone error in a red box.",Medium,AC7 only defines length; assumption that formatting characters are allowed.,v3 TC-009,No change,
+TC-010,Valid email with plus sign and multi-level domain is accepted,Edge/Boundary,"AC6, AC9",Open in the address bar: https://automationintesting.online/reservation/1?checkin=2027-01-08&checkout=2027-01-09,"1. Click ""Reserve Now"".
+2. Type the test data.
+3. Click ""Reserve Now"".
+4. Check the panel.","Firstname: Maria
+Lastname: Gonzalez
+Email: maria.gonzalez+trip@mail.example.co.uk
+Phone: +523312345678","""Booking Confirmed"" with 2027-01-08 - 2027-01-09. No Email error.",Low,,v3 TC-010,No change,
+TC-011,Booking across a month boundary,Edge/Boundary,"AC1, AC2, AC9",Browser open. Double room free for 30/11/2026–02/12/2026.,"1. Open https://automationintesting.online.
+2. Set Check In and Check Out to the test data dates; click ""Check Availability"".
+3. On the Double card click ""Book now"".
+4. Check the URL.
+5. In the calendar click ""Next"" until November 2026, check it, then click ""Next"" once more and check December 2026.
+6. Check the Price Summary.
+7. Click ""Reserve Now"", type the contact data, click ""Reserve Now"".
+8. Check the panel.","Check In: 30/11/2026
+Check Out: 02/12/2026
+Firstname: Maria
+Lastname: Gonzalez
+Email: maria.gonzalez@example.com
+Phone: +523312345678","Step 4: /reservation/2?checkin=2026-11-30&checkout=2026-12-02.
+Step 5: ""Selected"" on 30 November and on 1 December only.
+Step 6: £150 × 2 nights = £300, £25, £15, Total £340.
+Step 8: ""Booking Confirmed"" with 2026-11-30 - 2026-12-02.",High,,v3 TC-011,No change,
+TC-012,Booking across a year boundary,Edge/Boundary,"AC1, AC2, AC9",Browser open. Single room free for 30/12/2026–02/01/2027.,"1. Open https://automationintesting.online.
+2. Set Check In and Check Out to the test data dates; click ""Check Availability"".
+3. On the Single card click ""Book now"".
+4. Check the URL and the Price Summary.
+5. Click ""Reserve Now"", type the contact data, click ""Reserve Now"".
+6. Check the panel.","Check In: 30/12/2026
+Check Out: 02/01/2027
+Firstname: Maria
+Lastname: Gonzalez
+Email: maria.gonzalez@example.com
+Phone: +523312345678","Step 4: /reservation/1?checkin=2026-12-30&checkout=2027-01-02; £100 × 3 nights = £300, £25, £15, Total £340.
+Step 6: ""Booking Confirmed"" with 2026-12-30 - 2027-01-02 (year 2027 on the end date, not 2026).",High,,v3 TC-012,No change,
+TC-013,Booking about one year in the future,Edge/Boundary,"AC1, AC2, AC9",Browser open. Suite free for 11/10/2027–13/10/2027.,"1. Open https://automationintesting.online.
+2. Set the test data dates; click ""Check Availability"".
+3. On the Suite card click ""Book now"".
+4. Check the URL and the Price Summary.
+5. Click ""Next"" until October 2027 and check the calendar.
+6. Click ""Reserve Now"", type the contact data, click ""Reserve Now"".
+7. Check the panel.","Check In: 11/10/2027
+Check Out: 13/10/2027
+Firstname: Maria
+Lastname: Gonzalez
+Email: maria.gonzalez@example.com
+Phone: +523312345678","Step 4: /reservation/3?checkin=2027-10-11&checkout=2027-10-13; £225 × 2 nights = £450, £25, £15, Total £490.
+Step 5: ""Selected"" on 11 and 12 October 2027.
+Step 7: ""Booking Confirmed"" with 2027-10-11 - 2027-10-13.",Medium,,v3 TC-013,No change,
+TC-014,"Dates changed on the home page without clicking ""Check Availability"" are passed to the room page",Edge/Boundary,"AC1, AC12",Browser open.,"1. Open https://automationintesting.online.
+2. Set Check In and Check Out to the test data dates.
+3. Do not click ""Check Availability""; on the Single card click ""Book now"".
+4. Check the URL and the Price Summary.","Check In: 10/05/2027
+Check Out: 12/05/2027","URL is /reservation/1?checkin=2027-05-10&checkout=2027-05-12 (not today/tomorrow). Price Summary: £100 × 2 nights = £200, £25, £15, Total £240.",Medium,Fail if the room page silently uses the prefilled dates instead of the dates shown in the fields.,v3 TC-014,No change,
+TC-015,Back-to-back booking (new check-in on an existing check-out date) is allowed,Edge/Boundary,"AC10, AC9",A Double booking exists for 2027-02-22 to 2027-02-24 (create it via https://automationintesting.online/reservation/2?checkin=2027-02-22&checkout=2027-02-24 with valid data).,"1. Open in the address bar: https://automationintesting.online/reservation/2?checkin=2027-02-24&checkout=2027-02-26.
+2. Check the Price Summary.
+3. Click ""Reserve Now"", type the test data, click ""Reserve Now"".
+4. Check the panel.","Firstname: Lucia
+Lastname: Ramirez
+Email: lucia.ramirez@example.com
+Phone: +523398765432","Step 2: £150 × 2 nights = £300, £25, £15, Total £340.
+Step 4: ""Booking Confirmed"" with 2027-02-24 - 2027-02-26.",Medium,Assumption: the check-out day is free for a new check-in (not stated in the ACs). Confirm with the PO.,v3 TC-015,No change,
+TC-016,Firstname with emoji is handled without errors,Edge/Boundary,"AC4, AC9",Open in the address bar: https://automationintesting.online/reservation/1?checkin=2027-01-15&checkout=2027-01-16,"1. Click ""Reserve Now"".
+2. Type the test data.
+3. Click ""Reserve Now"".
+4. Check the panel.","Firstname: Ana😀
+Lastname: Gonzalez
+Email: ana.gonzalez@example.com
+Phone: +523312345678","""Booking Confirmed"" with 2027-01-15 - 2027-01-16. No error page, no garbled text.",Low,The length is within 3–18 whether the emoji counts as 1 or 2 characters. Assumption that emoji are allowed.,v3 TC-016,No change,
+TC-017,Names made only of digits,Edge/Boundary,"AC4, AC5",Open in the address bar: https://automationintesting.online/reservation/1?checkin=2027-01-25&checkout=2027-01-26,"1. Click ""Reserve Now"".
+2. Type the test data.
+3. Click ""Reserve Now"".
+4. Check the panel.","Firstname: 12345
+Lastname: 67890
+Email: maria.gonzalez@example.com
+Phone: +523312345678","No ""Booking Confirmed"". Red box with a bullet that names Firstname or Lastname and says a name can't be only digits. Form still usable; no error page.",Low,"Pending PO decision: the ACs only define length. Until the rule is confirmed this case fails and is tracked as BUG-04. Real names with accents, apostrophes and hyphens must still pass (TC-008).",v3 TC-017,"Expected result changed from ""accepted"" to ""rejected"", following the product question in BUG-04.",BUG-04
+TC-018,Leading/trailing spaces do not count toward Firstname length,Edge/Boundary,"AC4, AC8",Open in the address bar: https://automationintesting.online/reservation/1?checkin=2027-01-18&checkout=2027-01-20,"1. Note the Price Summary.
+2. Click ""Reserve Now"".
+3. Type the test data (two spaces, Al, two spaces in Firstname).
+4. Click ""Reserve Now"".
+5. Check the panel.","Firstname:   Al  
+Lastname: Gonzalez
+Email: maria.gonzalez@example.com
+Phone: +523312345678","No ""Booking Confirmed"". Red error box above the Price Summary with one bullet about the Firstname length. Form still visible and editable, no error page. Price Summary still £200, £25, £15, Total £240.",Medium,"Assumption: input is trimmed before validation. If accepted, raise as a defect/clarification.",v3 TC-018,No change,
+TC-019,Firstname with 2 characters is rejected,Negative,"AC4, AC8",Open in the address bar: https://automationintesting.online/reservation/1?checkin=2027-06-01&checkout=2027-06-03,"1. Click ""Reserve Now"".
+2. Type the test data.
+3. Click ""Reserve Now"".
+4. Check the red box above the Price Summary, the form, the Price Summary and the URL.","Firstname: Al
+Lastname: Gonzalez
+Email: maria.gonzalez@example.com
+Phone: +523312345678","No ""Booking Confirmed"". Red box shows exactly one bullet, about Firstname length (3–18), and the bullet names the field (""Firstname""). Form fields still shown and editable; ""Reserve Now"" still clickable; no error page. URL unchanged. Price Summary: £100 × 2 nights = £200, £25, £15, Total £240.",High,Exact message text not specified (assumption). Retention of typed values assumed.,v3 TC-019,Expected result now requires the message to name the field (would catch BUG-05).,BUG-05
+TC-020,Firstname with 19 characters is rejected,Negative,"AC4, AC8",Open in the address bar: https://automationintesting.online/reservation/1?checkin=2027-06-04&checkout=2027-06-06,"1. Click ""Reserve Now"".
+2. Type the test data.
+3. Click ""Reserve Now"".
+4. Check the red box, the form, the Price Summary and the URL.","Firstname: Abcdefghijklmnopqrs (19)
+Lastname: Gonzalez
+Email: maria.gonzalez@example.com
+Phone: +523312345678","No ""Booking Confirmed"". Red box shows exactly one bullet, about Firstname length (3–18), and the bullet names the field (""Firstname""). Form still usable; no error page; URL unchanged; Price Summary £200, £25, £15, Total £240.",High,"If the field blocks typing the 19th character, record it; confirm the value sent is not silently truncated.",v3 TC-020,Expected result now requires the message to name the field (would catch BUG-05).,BUG-05
+TC-021,Empty Firstname is rejected,Negative,"AC4, AC8",Open in the address bar: https://automationintesting.online/reservation/1?checkin=2027-06-07&checkout=2027-06-09,"1. Click ""Reserve Now"".
+2. Leave Firstname empty; type the other values.
+3. Click ""Reserve Now"".
+4. Check the red box, the form and the Price Summary.","Firstname: (leave empty)
+Lastname: Gonzalez
+Email: maria.gonzalez@example.com
+Phone: +523312345678","No ""Booking Confirmed"". Red box shows a bullet saying Firstname is required (and no bullets for Lastname, Email or Phone). Form still usable; no error page; Price Summary £200, £25, £15, Total £240.",High,,v3 TC-021,No change,
+TC-022,Firstname containing only spaces is rejected,Negative,"AC4, AC8",Open in the address bar: https://automationintesting.online/reservation/1?checkin=2027-06-10&checkout=2027-06-12,"1. Click ""Reserve Now"".
+2. Type three spaces in Firstname and the other values.
+3. Click ""Reserve Now"".
+4. Check the red box, the form and the Price Summary.","Firstname:    
+Lastname: Gonzalez
+Email: maria.gonzalez@example.com
+Phone: +523312345678","No ""Booking Confirmed"". Red box shows a Firstname error (required or length). Form still usable; no error page; Price Summary £200, £25, £15, Total £240.",Medium,Assumption: whitespace-only is treated as empty.,v3 TC-022,No change,
+TC-023,Lastname with 2 characters is rejected,Negative,"AC5, AC8",Open in the address bar: https://automationintesting.online/reservation/1?checkin=2027-06-13&checkout=2027-06-15,"1. Click ""Reserve Now"".
+2. Type the test data.
+3. Click ""Reserve Now"".
+4. Check the red box, the form and the Price Summary.","Firstname: Maria
+Lastname: Li
+Email: maria.li@example.com
+Phone: +523312345678","No ""Booking Confirmed"". Red box shows exactly one bullet, about Lastname length (3–30), and the bullet names the field (""Lastname""). Form still usable; no error page; Price Summary £200, £25, £15, Total £240.",High,Exact message assumed.,v3 TC-023,Expected result now requires the message to name the field (would catch BUG-05).,BUG-05
+TC-024,Lastname with 31 characters is rejected,Negative,"AC5, AC8",Open in the address bar: https://automationintesting.online/reservation/1?checkin=2027-06-16&checkout=2027-06-18,"1. Click ""Reserve Now"".
+2. Type the test data.
+3. Click ""Reserve Now"".
+4. Check the red box, the form and the Price Summary.","Firstname: Maria
+Lastname: Abcdefghijklmnopqrstuvwxyzabcde (31)
+Email: maria.gonzalez@example.com
+Phone: +523312345678","No ""Booking Confirmed"". Red box shows exactly one bullet, about Lastname length (3–30), and the bullet names the field (""Lastname""). Form still usable; no error page; Price Summary £200, £25, £15, Total £240.",High,,v3 TC-024,Expected result now requires the message to name the field (would catch BUG-05).,BUG-05
+TC-025,"Email without ""@"" is rejected",Negative,"AC6, AC8",Open in the address bar: https://automationintesting.online/reservation/1?checkin=2027-06-19&checkout=2027-06-21,"1. Click ""Reserve Now"".
+2. Type the test data.
+3. Click ""Reserve Now"".
+4. Check the red box, the form and the Price Summary.","Firstname: Maria
+Lastname: Gonzalez
+Email: maria.gonzalez.example.com
+Phone: +523312345678","No ""Booking Confirmed"". Red box shows exactly one bullet saying the email format is invalid. Form still usable; no error page; Price Summary £200, £25, £15, Total £240.",High,"If a browser-native tooltip appears instead of the red box, record it (still must not book).",v3 TC-025,No change,
+TC-026,Email without a domain is rejected,Negative,"AC6, AC8",Open in the address bar: https://automationintesting.online/reservation/1?checkin=2027-06-22&checkout=2027-06-24,"1. Click ""Reserve Now"".
+2. Type the test data.
+3. Click ""Reserve Now"".
+4. Check the red box, the form and the Price Summary.","Firstname: Maria
+Lastname: Gonzalez
+Email: maria@
+Phone: +523312345678","No ""Booking Confirmed"". Red box shows exactly one bullet about invalid email format. Form still usable; no error page; Price Summary £200, £25, £15, Total £240.",Medium,,v3 TC-026,No change,
+TC-027,Phone with 10 characters is rejected,Negative,"AC7, AC8",Open in the address bar: https://automationintesting.online/reservation/1?checkin=2027-06-25&checkout=2027-06-27,"1. Click ""Reserve Now"".
+2. Type the test data.
+3. Click ""Reserve Now"".
+4. Check the red box, the form and the Price Summary.","Firstname: Maria
+Lastname: Gonzalez
+Email: maria.gonzalez@example.com
+Phone: 0123456789 (10)","No ""Booking Confirmed"". Red box shows exactly one bullet about Phone length (11–21), and the bullet names the field (""Phone""). Form still usable; no error page; Price Summary £200, £25, £15, Total £240.",High,,v3 TC-027,Expected result now requires the message to name the field (would catch BUG-05).,BUG-05
+TC-028,Phone with 22 characters is rejected,Negative,"AC7, AC8",Open in the address bar: https://automationintesting.online/reservation/1?checkin=2027-06-28&checkout=2027-06-30,"1. Click ""Reserve Now"".
+2. Type the test data.
+3. Click ""Reserve Now"".
+4. Check the red box, the form and the Price Summary.","Firstname: Maria
+Lastname: Gonzalez
+Email: maria.gonzalez@example.com
+Phone: 0123456789012345678901 (22)","No ""Booking Confirmed"". Red box shows exactly one bullet about Phone length (11–21), and the bullet names the field (""Phone""). Form still usable; no error page; Price Summary £200, £25, £15, Total £240.",High,,v3 TC-028,Expected result now requires the message to name the field (would catch BUG-05).,BUG-05
+TC-029,Submitting with all fields empty shows an error per field and creates no booking,Negative,"AC4, AC5, AC6, AC7, AC8",Browser open.,"1. Open in the address bar: https://automationintesting.online/reservation/1?checkin=2027-07-01&checkout=2027-07-03.
+2. Click ""Reserve Now"".
+3. Leave all fields empty; click ""Reserve Now"".
+4. Check the red box, the form and the Price Summary.
+5. Click ""Home"" in the breadcrumb.
+6. Set the test data dates; click ""Check Availability"".
+7. Check ""Our Rooms"".","Check In: 01/07/2027
+Check Out: 03/07/2027","Step 4: No ""Booking Confirmed"". Red box lists errors for Firstname, Lastname, Email and Phone and each message names its field; a message without a field name (for example ""must not be empty"") fails. Form still usable; no error page; Price Summary £200, £25, £15, Total £240.
+Step 7: The Single card is still listed (no booking was created).",High,,v3 TC-029,Expected result now requires each message to name its field (BUG-05).,BUG-05
+TC-030,"Several invalid fields at once, then corrected, books successfully",Negative,"AC4, AC5, AC6, AC7, AC8, AC9",Open in the address bar: https://automationintesting.online/reservation/1?checkin=2027-07-04&checkout=2027-07-06,"1. Click ""Reserve Now"".
+2. Type the invalid data set; click ""Reserve Now"".
+3. Check the red box and the Price Summary.
+4. Replace all four values with the valid data set; click ""Reserve Now"".
+5. Check the panel.","Invalid: Firstname Al, Lastname Li, Email maria@, Phone 0123456789
+Valid: Firstname Maria, Lastname Gonzalez, Email maria.gonzalez@example.com, Phone +523312345678","Step 3: No ""Booking Confirmed"". Red box lists four errors (Firstname, Lastname, Email, Phone) together, not only the first one. Price Summary £200, £25, £15, Total £240.
+Step 5: Red box gone; ""Booking Confirmed"" with 2027-07-04 - 2027-07-06 (no ""already booked"" error, proving step 2 created nothing).",High,,v3 TC-030,No change,
+TC-031,Booking the exact same dates again is rejected,Negative,"AC10, AC8",A Single booking exists for 2027-02-08 to 2027-02-10 (create it via https://automationintesting.online/reservation/1?checkin=2027-02-08&checkout=2027-02-10 with valid data).,"1. Open https://automationintesting.online.
+2. Set Check In 08/02/2027, Check Out 10/02/2027; click ""Check Availability"".
+3. Check ""Our Rooms"".
+4. Open in the address bar: https://automationintesting.online/reservation/1?checkin=2027-02-08&checkout=2027-02-10.
+5. Click ""Reserve Now"", type the test data, click ""Reserve Now"".
+6. Check the panel.","Firstname: Lucia
+Lastname: Ramirez
+Email: lucia.ramirez@example.com
+Phone: +523398765432","Step 3: The Single card is not listed.
+Step 6: No ""Booking Confirmed"". A clear message says the dates are not available. No error page; form still usable; Price Summary £200, £25, £15, Total £240.",High,"Booked dates are not marked on the calendar (known UI behavior), so the error message is the only signal. Exact text assumed.",v3 TC-031,No change,BUG-01
+TC-032,Partially overlapping dates are rejected,Negative,"AC10, AC8",A Single booking exists for 2027-02-15 to 2027-02-17.,"1. Open in the address bar: https://automationintesting.online/reservation/1?checkin=2027-02-16&checkout=2027-02-18.
+2. Click ""Reserve Now"", type the test data, click ""Reserve Now"".
+3. Check the panel.","Firstname: Lucia
+Lastname: Ramirez
+Email: lucia.ramirez@example.com
+Phone: +523398765432","No ""Booking Confirmed"". Clear message that the dates are not available. No error page; form still usable; Price Summary £100 × 2 nights = £200, £25, £15, Total £240.",High,,v3 TC-032,No change,BUG-01
+TC-033,Two tabs booking the same room and dates: only the first succeeds,Negative,"AC10, AC9",Suite free for 2027-03-01 to 2027-03-03.,"1. In tab A open https://automationintesting.online/reservation/3?checkin=2027-03-01&checkout=2027-03-03.
+2. In tab B open the same URL.
+3. In both tabs click ""Reserve Now"" and type the data for that tab.
+4. In tab A click ""Reserve Now"".
+5. In tab B (without refreshing) click ""Reserve Now"".
+6. Check both panels.","Tab A: Maria / Gonzalez / maria.gonzalez@example.com / +523312345678
+Tab B: Lucia / Ramirez / lucia.ramirez@example.com / +523398765432","Tab A: ""Booking Confirmed"" with 2027-03-01 - 2027-03-03.
+Tab B: no ""Booking Confirmed""; clear message that the dates are not available; no error page; Price Summary £225 × 2 nights = £450, £25, £15, Total £490.",High,,v3 TC-033,"Category changed from Security to Negative (concurrency, not security).",BUG-01
+TC-034,Double-clicking the submit button creates only one booking,Negative,"AC9, AC10",Double free for 2027-03-08 to 2027-03-10.,"1. Open https://automationintesting.online/reservation/2?checkin=2027-03-08&checkout=2027-03-10.
+2. Click ""Reserve Now""; type the test data.
+3. Double-click ""Reserve Now"" quickly.
+4. Check the panel.","Firstname: Maria
+Lastname: Gonzalez
+Email: maria.gonzalez@example.com
+Phone: +523312345678","One ""Booking Confirmed"" panel with 2027-03-08 - 2027-03-10. No ""dates not available"" error shown after the confirmation, no error page.",Medium,"Counting stored bookings needs Admin (no credentials). An ""already booked"" error after the double click suggests two requests were sent.",v3 TC-034,"Category changed from Security to Negative (concurrency, not security).",
+TC-035,Check Out before Check In on the home page,Negative,AC11,Browser open.,"1. Open https://automationintesting.online.
+2. Set the test data dates.
+3. Click ""Check Availability"".
+4. Check the availability section and ""Our Rooms"".
+5. If a ""Book now"" button is shown, click it on the Single card and check the URL and Price Summary.","Check In: 15/03/2027
+Check Out: 13/03/2027","A clear message near the date fields says Check Out must be after Check In, or the date picker prevents the selection. No error page. If a room page opens: Price Summary does not show negative nights or negative amounts, and a booking with valid data must not reach ""Booking Confirmed"".",High,Message text and location not specified (assumption).,v3 TC-035,No change,"BUG-01, BUG-02"
+TC-036,Same-day Check In and Check Out (0 nights),Edge/Boundary,AC11,Browser open.,"1. Open https://automationintesting.online.
+2. Set the test data dates; click ""Check Availability"".
+3. Check for a message.
+4. If possible, on the Single card click ""Book now"", check the Price Summary, click ""Reserve Now"", type valid data, click ""Reserve Now"".","Check In: 17/03/2027
+Check Out: 17/03/2027
+Firstname: Maria
+Lastname: Gonzalez
+Email: maria.gonzalez@example.com
+Phone: +523312345678","Step 3: A clear message says Check Out must be after Check In, or the date picker prevents the selection.
+Step 4 (if a room page opens): Price Summary does not show ""0 nights"" or a total made only of fees (£40). Submitting does not reach ""Booking Confirmed"" and does not show an error page; a clear message explains why.",High,,v3 TC-036,"Price oracle fixed: the risk for 0 nights is a fees-only total (£40), not £140.","BUG-01, BUG-02"
+TC-037,Booking dates in the past,Edge/Boundary,"AC1, AC11",Browser open. Today is 19/10/2026.,"1. Open https://automationintesting.online.
+2. Set the test data dates; click ""Check Availability"".
+3. If shown, on the Single card click ""Book now"".
+4. Click ""Reserve Now"", type valid data, click ""Reserve Now"".
+5. Check the panel.","Check In: 10/10/2026
+Check Out: 12/10/2026
+Firstname: Maria
+Lastname: Gonzalez
+Email: maria.gonzalez@example.com
+Phone: +523312345678","No ""Booking Confirmed"" for past dates; a clear message explains the dates are not valid. No error page.",Medium,"Past-date handling is not in the ACs (assumption). If the booking is confirmed, raise with the PO.",v3 TC-037,No change,
+TC-038,"""View Details"" in Similar Rooms keeps the selected dates",Happy path,"AC12, AC1, AC2",Browser open.,"1. Open https://automationintesting.online/reservation/1?checkin=2027-04-05&checkout=2027-04-07.
+2. Scroll to ""Similar Rooms You Might Like"".
+3. On the Double card click ""View Details"".
+4. Check the URL, room name, calendar (click ""Next"" to April 2027) and Price Summary.",None,"The Double room page opens. Either: URL is /reservation/2?checkin=2027-04-05&checkout=2027-04-07, ""Selected"" on 5 and 6 April 2027, Price Summary £150 × 2 nights = £300, £25, £15, Total £340; or a clear prompt asks to select dates. Fail if other dates (for example today/tomorrow) are shown or booked without the user selecting them.",High,,v3 TC-038,No change,BUG-03
+TC-039,Room URL without date parameters,Edge/Boundary,AC12,Browser open.,"1. Open in the address bar: https://automationintesting.online/reservation/1
+2. Check the panel and Price Summary.
+3. Click ""Reserve Now"", type the test data, click ""Reserve Now"".
+4. Check the panel.","Firstname: Maria
+Lastname: Gonzalez
+Email: maria.gonzalez@example.com
+Phone: +523312345678","Step 2: Page loads with no error; a clear prompt asks to select dates; Price Summary shows no ""NaN"", ""undefined"" or negative values.
+Step 4: No ""Booking Confirmed"" for dates the user never selected; a clear message asks for dates.",High,,v3 TC-039,No change,
+TC-040,Room URL with invalid date parameters,Negative,AC12,Browser open.,"1. Open in the address bar: https://automationintesting.online/reservation/1?checkin=abc&checkout=xyz
+2. Check the page, panel and Price Summary.
+3. Click ""Reserve Now"", type the test data, click ""Reserve Now"".","Firstname: Maria
+Lastname: Gonzalez
+Email: maria.gonzalez@example.com
+Phone: +523312345678","No error page or blank page. Price Summary shows no ""NaN"", ""Invalid Date"" or negative values. A clear prompt asks to select dates. No ""Booking Confirmed"".",Medium,,v3 TC-040,No change,
+TC-041,Room URL with a non-existent room ID,Negative,AC12,Browser open.,"1. Open in the address bar: https://automationintesting.online/reservation/99?checkin=2027-04-12&checkout=2027-04-14
+2. Check the page.",None,"A clear ""room not found"" message or a redirect to the home page. No crash, no blank page, no ""Book This Room"" panel with missing price (""£undefined"", ""£NaN""). No way to book.",Low,Not covered by the ACs (assumption).,v3 TC-041,No change,
+TC-042,Browser Back after a confirmed booking does not rebook or break,Edge/Boundary,"AC9, AC10",Single free for 2027-04-19 to 2027-04-21.,"1. Open https://automationintesting.online, set Check In 19/04/2027, Check Out 21/04/2027, click ""Check Availability"", click ""Book now"" on Single.
+2. Click ""Reserve Now"", type the test data, click ""Reserve Now"".
+3. Press the browser Back button.
+4. Check the page.
+5. Click ""Check Availability"" and check ""Our Rooms"".","Firstname: Maria
+Lastname: Gonzalez
+Email: maria.gonzalez@example.com
+Phone: +523312345678","Step 2: ""Booking Confirmed"" with 2027-04-19 - 2027-04-21.
+Step 4: Home page loads normally; no resubmission prompt, no error page.
+Step 5: Single is not listed for 19/04/2027–21/04/2027 (booking persisted).",Medium,,v3 TC-042,No change,
+TC-043,"""Return home"" button after confirmation",UX,AC9,Single free for 2027-04-26 to 2027-04-28.,"1. Open https://automationintesting.online/reservation/1?checkin=2027-04-26&checkout=2027-04-28.
+2. Click ""Reserve Now"", type the test data, click ""Reserve Now"".
+3. Click ""Return home"".
+4. Check the URL and page.","Firstname: Maria
+Lastname: Gonzalez
+Email: maria.gonzalez@example.com
+Phone: +523312345678","Step 2: ""Booking Confirmed"" with 2027-04-26 - 2027-04-28.
+Step 4: URL is https://automationintesting.online/ ; home page shows the navigation, availability section and ""Our Rooms""; no error.",Medium,Separate from TC-042 (in-app link vs browser Back).,v3 TC-043,No change,
+TC-044,Refreshing the page after confirmation does not resubmit,Edge/Boundary,"AC9, AC10",Single free for 2027-05-03 to 2027-05-05.,"1. Open https://automationintesting.online/reservation/1?checkin=2027-05-03&checkout=2027-05-05.
+2. Click ""Reserve Now"", type the test data, click ""Reserve Now"".
+3. Press F5 (refresh).
+4. Check the page.","Firstname: Maria
+Lastname: Gonzalez
+Email: maria.gonzalez@example.com
+Phone: +523312345678","Step 2: ""Booking Confirmed"" with 2027-05-03 - 2027-05-05.
+Step 4: Page reloads without a resubmission prompt and without an error page; no second ""Booking Confirmed"" triggered by the refresh; Price Summary (if shown) £200, £25, £15, Total £240.",Medium,,v3 TC-044,No change,
+TC-045,"Refresh mid-flow (form filled, not submitted) creates no booking",Edge/Boundary,"AC1, AC8",Browser open.,"1. Open https://automationintesting.online/reservation/1?checkin=2027-05-17&checkout=2027-05-19.
+2. Click ""Reserve Now"", type the test data (do not submit).
+3. Press F5.
+4. Check the URL, calendar and Price Summary.
+5. Open https://automationintesting.online, set Check In 17/05/2027, Check Out 19/05/2027, click ""Check Availability"".","Firstname: Maria
+Lastname: Gonzalez
+Email: maria.gonzalez@example.com
+Phone: +523312345678","Step 4: URL unchanged; Price Summary £100 × 2 nights = £200, £25, £15, Total £240; no ""Booking Confirmed"".
+Step 5: Single is still listed.",Medium,,v3 TC-045,No change,
+TC-046,Script and HTML in name fields are not executed or rendered,Security,"AC4, AC5, AC9",Double free for 2027-05-24 to 2027-05-26.,"1. Open https://automationintesting.online/reservation/2?checkin=2027-05-24&checkout=2027-05-26.
+2. Click ""Reserve Now"", type the test data, click ""Reserve Now"".
+3. Watch for any browser alert dialog and check the panel.","Firstname: <b>Ana</b>
+Lastname: <script>alert('XSS')</script>
+Email: ana.test@example.com
+Phone: +523312345678","No alert dialog appears at any point. No bold or HTML-formatted text appears anywhere on the page. Either ""Booking Confirmed"" with 2027-05-24 - 2027-05-26 (input stored as plain text) or a clear validation message in the red box. No error page.",High,Rendering in Admin cannot be checked without credentials; recommend checking there too.,v3 TC-046,No change,
+TC-047,SQL-style input in Lastname is handled as text,Security,"AC5, AC9",Single free for 2027-08-02 to 2027-08-04.,"1. Open https://automationintesting.online/reservation/1?checkin=2027-08-02&checkout=2027-08-04.
+2. Click ""Reserve Now"", type the test data, click ""Reserve Now"".
+3. Check the panel.","Firstname: Maria
+Lastname: Smith' OR '1'='1
+Email: maria.smith@example.com
+Phone: +523312345678","""Booking Confirmed"" with 2027-08-02 - 2027-08-04. No database error, stack trace, error page or technical message shown.",Medium,,v3 TC-047,No change,
+TC-048,Reversed dates via URL tampering,Security,"AC11, AC2",Browser open.,"1. Open in the address bar: https://automationintesting.online/reservation/1?checkin=2027-03-22&checkout=2027-03-20
+2. Check the Price Summary.
+3. Click ""Reserve Now"", type the test data, click ""Reserve Now"".
+4. Check the panel.","Firstname: Maria
+Lastname: Gonzalez
+Email: maria.gonzalez@example.com
+Phone: +523312345678","Step 2: Price Summary does not show negative nights (for example ""-2 nights"") or negative/zero-night totals presented as payable.
+Step 4: No ""Booking Confirmed""; a clear message says Check Out must be after Check In; no error page; form usable.",High,,v3 TC-048,No change,"BUG-01, BUG-02"
+TC-049,"Clicking a date in the room calendar keeps price, calendar, URL and booking consistent",Edge/Boundary,"AC1, AC2, AC9",Double free for 2027-09-06 to 2027-09-09.,"1. Open in the address bar: https://automationintesting.online/reservation/2?checkin=2027-09-06&checkout=2027-09-09.
+2. Click ""Next"" until September 2027; check the calendar and the Price Summary.
+3. Click 20 September 2027 once.
+4. Check the calendar, the URL and the Price Summary.
+5. Click ""Reserve Now"", type the test data, click ""Reserve Now"".
+6. Check the panel.","Firstname: Maria
+Lastname: Gonzalez
+Email: maria.gonzalez@example.com
+Phone: +523312345678","Step 2: ""Selected"" on 6, 7 and 8 September; £150 × 3 nights = £450, £25, £15, Total £490.
+Step 4: Calendar, URL and Price Summary all describe the same stay (either all still 6–9 September and £490, or all the new selection). Fail if the Price Summary total does not match the dates in the URL and calendar.
+Step 6: ""Booking Confirmed"" shows the same dates the Price Summary showed just before submitting.",High,How a single click should change the selection is not in the ACs; this case only requires consistency.,Added by reviewer (regression),New. No prompt version generated it.,BUG-06
+TC-050,Each error message names the field it refers to,UX,AC8,Open in the address bar: https://automationintesting.online/reservation/1?checkin=2027-09-20&checkout=2027-09-22,"1. Click ""Reserve Now"".
+2. Type the test data.
+3. Click ""Reserve Now"".
+4. Read each bullet in the red box.","Firstname: Al
+Lastname: Gonzalez
+Email: maria@
+Phone: 0123456789","No ""Booking Confirmed"". The red box has three bullets, one each for Firstname, Email and Phone, and each bullet names its field (for example ""Firstname must be between 3 and 18 characters""). No bullet for Lastname. A bullet such as ""size must be between 11 and 21"" with no field name fails.",Medium,Exact wording not specified (assumption); naming the field is the requirement.,Added by reviewer (regression),New. v3 had no case that checks messages name the field.,BUG-05
+TC-051,Same dates on a different room can be booked,Happy path,"AC10, AC9",A Single booking exists for 2027-09-13 to 2027-09-15 (create it via https://automationintesting.online/reservation/1?checkin=2027-09-13&checkout=2027-09-15 with valid data).,"1. Open in the address bar: https://automationintesting.online/reservation/2?checkin=2027-09-13&checkout=2027-09-15.
+2. Check the Price Summary.
+3. Click ""Reserve Now"", type the test data, click ""Reserve Now"".
+4. Check the panel.","Firstname: Lucia
+Lastname: Ramirez
+Email: lucia.ramirez@example.com
+Phone: +523398765432","Step 2: £150 × 2 nights = £300, £25, £15, Total £340.
+Step 4: ""Booking Confirmed"" with 2027-09-13 - 2027-09-15.",Medium,"Confirms AC10 blocks dates per room, not across rooms.",v2 TC-028,Taken from v2; v3 did not generate it.,
+TC-052,"""Amenities"" navigation link goes to the amenities section",UX,—,Browser open.,"1. Open https://automationintesting.online.
+2. Click ""Amenities"" in the top navigation.
+3. Check the URL and the page.",None,The page scrolls to a visible Amenities section (or opens an amenities page). Fail if the URL changes to /#amenities but nothing changes on screen.,Low,Outside the booking-flow ACs; kept as a navigation regression check.,Added by reviewer (regression),New.,BUG-07

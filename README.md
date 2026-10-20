@@ -19,6 +19,8 @@ I explored a booking flow by hand, wrote acceptance criteria from what I observe
 
 Full comparison: [evaluation/comparison-v1-v2-v3.md](evaluation/comparison-v1-v2-v3.md)
 
+**Final test suite:** 52 cases built from the v3 output after review, with peer-review fixes and regression cases for the bugs the model missed, traced to acceptance criteria and bugs: [test-suite/](test-suite/README.md)
+
 ### Key findings
 
 1. **The model reached the right scenarios but wrote weak expected results.** In v1, three tests led straight to real bugs but expected only "the booking is not created". When the page crashed, that was still true, so the tests would have passed. Defining what a correct result must include took detection from 1 to 4 of 5.
@@ -47,6 +49,7 @@ Full comparison: [evaluation/comparison-v1-v2-v3.md](evaluation/comparison-v1-v2
 3. **Clean runs:** every run in a new chat with no project context, so the model never saw the known bugs. Raw output in [runs/](runs/).
 4. **Rubric review of every case** (valid, executable, hallucination, duplicate, category, expected result strong enough), then a **second-pass peer review**.
 5. **Bug detection** measured against the bugs found in exploration, classifying each miss as a model miss, an acceptance-criteria gap, or missing context.
+6. **Final suite:** the best version's output, corrected and extended by me, with traceability to ACs and bugs.
 
 The rubric's key metric is defined as: *imagine a realistic bug in what the case tests; if a tester follows the expected result literally, would they mark Fail?* It comes from the test-oracle problem and the logic of mutation testing.
 
@@ -67,6 +70,7 @@ runs/          raw model output for each run (and the human-reviewed v1 suite)
 evaluation/    per-version analysis and the v1 vs v2 vs v3 comparison
   reviews/     per-case rubric scores and peer review comments (CSV)
 bugs/          bug reports with screenshot evidence
+test-suite/    final reviewed suite (CSV) with AC and bug traceability
 exploration.md acceptance criteria, observed rules, bug log
 lessons-learned.md
 ```
