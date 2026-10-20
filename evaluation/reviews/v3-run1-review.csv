@@ -1,0 +1,49 @@
+TC ID,Title,Category,AC ID,Valid (Y/N),Executable (Y/N),Hallucination (Y/N),Duplicate of,Category OK (Y/N),Expected result strong enough (Y/N),Comments,Peer review (Claude)
+TC-001,Book a Single room end to end with dates chosen on the home page,Happy path,"AC1, AC2, AC3, AC9",Y,Y,N,-,Y,Y,,"Agree. Minor: step 6 says ""click Next once (to November)"", which is only right if the test runs in October; ""click Next until November 2026"" would not depend on the run date."
+TC-002,Book a Double room for today using the prefilled home page dates,Happy path,"AC1, AC2, AC9",Y,Y,N,-,Y,Y,,"Agree. Date-dependent, but the Notes explain how to adjust. Good: it raises the check-in window (after 8:00 PM)."
+TC-003,Price Summary is correct for a 3-night Suite stay,Happy path,"AC1, AC2",Y,Y,N,-,Y,Y,,Agree. Exact total (£715) verified.
+TC-004,"First click on ""Reserve Now"" shows the form and ""Cancel"" without booking",Happy path,AC3,Y,Y,N,-,Y,Y,,Agree.
+TC-005,"""Cancel"" closes the form without booking",UX,AC3,Y,Y,N,-,Y,Y,,Agree.
+TC-006,All fields at their minimum valid length are accepted,Edge/Boundary,"AC4, AC5, AC6, AC7, AC9",Y,Y,N,-,Y,Y,,Agree.
+TC-007,All fields at their maximum valid length are accepted,Edge/Boundary,"AC4, AC5, AC7, AC9",Y,Y,N,-,Y,Y,,"Agree. Lengths verified (18, 30, 21)."
+TC-008,"Names with accents, apostrophe and hyphen are accepted",Happy path,"AC4, AC5, AC9",Y,Y,N,-,Y,Y,,Agree.
+TC-009,"International phone with country code, spaces, parentheses and dashes is accepted",Edge/Boundary,"AC7, AC9",Y,Y,N,-,Y,Y,,Agree. Assumption about formatting characters is flagged.
+TC-010,Valid email with plus sign and multi-level domain is accepted,Edge/Boundary,"AC6, AC9",Y,Y,N,-,Y,Y,,Agree.
+TC-011,Booking across a month boundary,Edge/Boundary,"AC1, AC2, AC9",Y,Y,N,-,Y,Y,,"Hallucination is blank; I'd mark N. The ""Selected"" bar on 30 Nov and 1 Dec matches the UI map."
+TC-012,Booking across a year boundary,Edge/Boundary,"AC1, AC2, AC9",Y,Y,N,-,Y,Y,,Agree. Checks the year on the end date.
+TC-013,Booking about one year in the future,Edge/Boundary,"AC1, AC2, AC9",Y,Y,N,-,Y,Y,,Agree.
+TC-014,"Dates changed on the home page without clicking ""Check Availability"" are passed to the room page",Edge/Boundary,"AC1, AC12",Y,Y,N,-,Y,Y,,Agree. New scenario: dates changed without clicking Check Availability.
+TC-015,Back-to-back booking (new check-in on an existing check-out date) is allowed,Edge/Boundary,"AC10, AC9",Y,Y,N,-,Y,Y,,Agree. Assumption flagged; precondition gives the URL to create the first booking.
+TC-016,Firstname with emoji is handled without errors,Edge/Boundary,"AC4, AC9",Y,Y,N,-,Y,Y,,Agree. Assumption flagged.
+TC-017,Names made only of digits,Edge/Boundary,"AC4, AC5",Y,Y,N,-,Y,N,,"Expected result strong enough = N, same reasoning as v2 TC-024: it expects the booking to be confirmed, so digits-only names (BUG-04) pass. Correct per the ACs; the gap is in the requirement, and the case flags it for the PO."
+TC-018,Leading/trailing spaces do not count toward Firstname length,Edge/Boundary,"AC4, AC8",Y,Y,N,-,Y,Y,,Agree. Trimming assumption flagged.
+TC-019,Firstname with 2 characters is rejected,Negative,"AC4, AC8",Y,Y,N,-,Y,Y,,"Agree for length validation. Suite-level note: ""one bullet about Firstname length"" would also pass a message that doesn't name the field (BUG-05). No case in this run checks that messages name the field."
+TC-020,Firstname with 19 characters is rejected,Negative,"AC4, AC8",Y,Y,N,-,Y,Y,,Agree. Same BUG-05 note as TC-019.
+TC-021,Empty Firstname is rejected,Negative,"AC4, AC8",Y,Y,N,-,Y,Y,,Agree.
+TC-022,Firstname containing only spaces is rejected,Negative,"AC4, AC8",Y,Y,N,-,Y,Y,,Agree.
+TC-023,Lastname with 2 characters is rejected,Negative,"AC5, AC8",Y,Y,N,-,Y,Y,,Agree. Same BUG-05 note as TC-019.
+TC-024,Lastname with 31 characters is rejected,Negative,"AC5, AC8",Y,Y,N,-,Y,Y,,Agree. Same BUG-05 note as TC-019.
+TC-025,"Email without ""@"" is rejected",Negative,"AC6, AC8",Y,Y,N,-,Y,Y,,Agree.
+TC-026,Email without a domain is rejected,Negative,"AC6, AC8",Y,Y,N,-,Y,Y,,Agree.
+TC-027,Phone with 10 characters is rejected,Negative,"AC7, AC8",Y,Y,N,-,Y,Y,,"Agree. Same BUG-05 note: ""size must be between 11 and 21"" is a bullet about Phone length without saying Phone."
+TC-028,Phone with 22 characters is rejected,Negative,"AC7, AC8",Y,Y,N,-,Y,Y,,Agree. Same BUG-05 note.
+TC-029,Submitting with all fields empty shows an error per field and creates no booking,Negative,"AC4, AC5, AC6, AC7, AC8",Y,Y,N,-,Y,Y,,Agree. Clever: uses the availability list to prove no booking was created.
+TC-030,"Several invalid fields at once, then corrected, books successfully",Negative,"AC4, AC5, AC6, AC7, AC8, AC9",Y,Y,N,-,Y,Y,,Agree.
+TC-031,Booking the exact same dates again is rejected,Negative,"AC10, AC8",Y,Y,N,-,Y,Y,,"Agree. Would catch BUG-01. Uses the UI map correctly (booked dates not marked, so the message is the only signal)."
+TC-032,Partially overlapping dates are rejected,Negative,"AC10, AC8",Y,Y,N,-,Y,Y,,Agree. Would catch BUG-01.
+TC-033,Two tabs booking the same room and dates: only the first succeeds,Security,"AC10, AC9",Y,Y,N,-,Y,Y,,Agree with the case. Category: two tabs is a concurrency/negative test rather than security; minor.
+TC-034,Double-clicking the submit button creates only one booking,Security,"AC9, AC10",Y,Y,N,-,Y,Y,,"Agree. Category same note as TC-033. Without Admin, a silent duplicate can't be seen; the Notes are honest about it."
+TC-035,Check Out before Check In on the home page,Negative,AC11,Y,Y,N,-,Y,Y,,Agree. Would catch BUG-01 and BUG-02.
+TC-036,Same-day Check In and Check Out (0 nights),Edge/Boundary,AC11,Y,Y,N,-,Y,N,,"See chat. Suggest Executable = Y and Hallucination = N: the case can be run, and expecting a clear message comes from AC11. The app not showing the message means the test fails, which is the test doing its job. The real problem is the price oracle: it forbids ""1 or more nights or £140"" (that's 1 night of Single), but the actual risk for 0 nights is £40 in fees only, which this oracle allows. So Expected result strong enough = N."
+TC-037,Booking dates in the past,Edge/Boundary,"AC1, AC11",Y,Y,N,-,Y,Y,,Agree. Assumption flagged.
+TC-038,"""View Details"" in Similar Rooms keeps the selected dates",Happy path,"AC12, AC1, AC2",Y,Y,N,-,Y,Y,,Agree. Detects BUG-03 through the real path (Similar Rooms → View Details).
+TC-039,Room URL without date parameters,Edge/Boundary,AC12,Y,Y,N,-,Y,Y,,Agree. Would catch NaN or an unprompted booking.
+TC-040,Room URL with invalid date parameters,Negative,AC12,Y,Y,N,-,Y,Y,,Agree.
+TC-041,Room URL with a non-existent room ID,Negative,AC12,Y,Y,N,-,Y,Y,,Agree. Assumption flagged (not in the ACs).
+TC-042,Browser Back after a confirmed booking does not rebook or break,Edge/Boundary,"AC9, AC10",Y,Y,N,-,Y,Y,,Agree.
+TC-043,"""Return home"" button after confirmation",UX,AC9,Y,Y,N,-,Y,Y,,Agree. Explicitly separated from Back (in-app link).
+TC-044,Refreshing the page after confirmation does not resubmit,Edge/Boundary,"AC9, AC10",Y,Y,N,-,Y,Y,,Agree.
+TC-045,"Refresh mid-flow (form filled, not submitted) creates no booking",Edge/Boundary,"AC1, AC8",Y,Y,N,-,Y,Y,,Agree.
+TC-046,Script and HTML in name fields are not executed or rendered,Security,"AC4, AC5, AC9",Y,Y,N,-,Y,Y,,"Agree. Test data is literal (<script>), the v2 escaping issue is fixed."
+TC-047,SQL-style input in Lastname is handled as text,Security,"AC5, AC9",Y,Y,N,-,Y,Y,,Agree.
+TC-048,Reversed dates via URL tampering,Security,"AC11, AC2",Y,Y,N,-,Y,Y,,Agree. Would catch BUG-02 and BUG-01 via URL.
