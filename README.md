@@ -12,10 +12,12 @@ I explored a booking flow by hand, wrote acceptance criteria from what I observe
 |---|---|---|---|
 | What changed | Baseline prompt | + rules for expected results, real-user scenarios | + UI map, literal test data |
 | Test cases (run 1) | 40 | 44 | 48 |
-| Known bugs detected (of the original 5) | **1** | **4** (both runs) | **3 + 1 partial** (both runs) |
+| Known bugs detected (of the original 5)† | **1** | **4** (both runs) | **3 + 1 partial** (both runs) |
 | Expected results strong enough to fail on a real bug | 87.5% | 97.7% | 95.8% |
 | Unflagged assumptions (hallucinations) | 0 | 1 | **0** |
 | Duplicates | 7.5% | 0% | 0% |
+
+† Analytical: judged by reading each case against each bug, not by executing it. Execution of the final suite is in progress.
 
 Full comparison: [evaluation/comparison-v1-v2-v3.md](evaluation/comparison-v1-v2-v3.md)
 
@@ -81,6 +83,7 @@ lessons-learned.md
 - One human reviewer plus an AI peer review, not two independent human reviewers.
 - The reference bugs were found by the same person who reviewed the output.
 - The app is a shared public demo; other users' bookings can change availability mid-session.
+- Test data uses fixed dates (2026–2027) so every value is literal. To run the suite later, shift the dates forward and recompute the expected totals.
 
 ## Next steps
 

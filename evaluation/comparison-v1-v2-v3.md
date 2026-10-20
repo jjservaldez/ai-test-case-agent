@@ -26,6 +26,8 @@ The two "not strong enough" cases in v3 are TC-017 (digits-only names expected t
 
 ## Known-bug detection
 
+Detection here is **analytical**: each case was read against each bug to decide whether a tester following it literally would mark Fail. The cases were not executed against the app. Execution results will replace this column once the final suite is run.
+
 | Bug | v1 | v2 (run 1 / run 2) | v3 (run 1 / run 2) |
 |---|---|---|---|
 | BUG-01 Rejected booking crashes the page | Reached, weak oracle | ✅ / ✅ | ✅ / ✅ |
@@ -41,6 +43,12 @@ The two "not strong enough" cases in v3 are TC-017 (digits-only names expected t
 - **v1 → v2:** the agent already reached the right scenarios; its weakness was the oracle. Telling it what "correct" must include (message, no error page, consistent prices) took detection from 1 to 4 of 5.
 - **v2 → v3:** asking it to say where to verify, without describing the UI, made it guess. A UI map removed the guesses (1 → 0 unflagged assumptions) and let it reach BUG-03 through the real user path. It also narrowed one oracle: error checks became "a bullet about Firstname length", which no longer requires the message to name the field (BUG-05).
 - **Across all versions:** BUG-04 appears in only one of two runs each time, so single runs are not reliable. BUG-06 was never reached; it was found by the tester while verifying a fact for the UI map.
+
+## Details behind the v1 → v2 change
+
+- **Executable (v2, 95.5%).** TC-014 describes test data instead of giving it ("30 characters"), and TC-041 gives HTML-escaped injection data (`&lt;script&gt;`), so the test would not exercise injection. The escaping issue appeared in both v2 runs; v3's literal-data rule fixed it.
+- **Hallucinations (v2, 1).** v2 asks the model to state where the tester must look, but gave it no description of the UI. TC-001 and TC-004 (the calendar marks the selected dates) were first scored as hallucinations and then reversed after re-checking the app. TC-026 ("booked dates are shown as unavailable") was confirmed: booked dates are not marked on the calendar. In all three cases the model guessed, which is why v3 adds a UI map.
+- **Consistency (v2).** About 32 scenarios appear in both runs. Detection is identical for 4 of 5 bugs; the digits-only name scenario appeared in only one run.
 
 ## Where the bugs came from
 
