@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Prompt | [v3](../prompts/v3.md), pasted unchanged |
-| Model | Claude Opus 5.5, as shown in the chat's model selector on claude.ai |
+| Model | Claude Opus 5.5 (reported by the tester; this chat was not located when checking on 2026-10-20) |
 | Date | 2026-10-19 |
 | Context | New chat outside any project, no files attached |
 | Account memory / past-chat search | Not recorded (UNKNOWN) |
