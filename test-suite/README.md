@@ -2,7 +2,17 @@
 
 The test suite I would hand to a team: the v3 run 1 output after my review, with the peer-review fixes applied and regression cases added for the bugs no prompt version covered.
 
-**Full suite (52 cases):** [final-test-suite.csv](final-test-suite.csv) (GitHub shows it as a searchable table). Columns: the v3 fields plus `Source`, `Change from v3` and `Related bug`.
+**Full suite (52 cases):** [final-test-suite.csv](final-test-suite.csv) (GitHub shows it as a searchable table). Columns: the v3 fields plus `Suite`, `Source`, `Change from v3` and `Related bug`.
+
+## Suite levels
+
+| Level | Cases | When to run |
+|---|---|---|
+| Smoke (8) | TC-001, TC-003, TC-004, TC-006, TC-008, TC-019, TC-029, TC-043 | First, on every build: if one fails, stop and report |
+| Regression (16) | TC-017, TC-020, TC-023, TC-024, TC-027, TC-028, TC-031, TC-032, TC-033, TC-035, TC-036, TC-038, TC-048, TC-049, TC-050, TC-052 | After a fix: the cases tied to known bugs |
+| Full (28) | All other cases | Before a release |
+
+Each case appears in one level only. TC-019 and TC-029 are in Smoke because they check core validation, but they also cover BUG-05, so they fail on the current app until that bug is fixed.
 
 ## How it was built
 
