@@ -1,0 +1,41 @@
+TC ID,Title,Category,AC ID,Valid (Y/N),Executable (Y/N),Hallucination (Y/N),Duplicate of,Category OK (Y/N),Expected result strong enough (Y/N),Comments,Peer review (Claude),Action
+TC-001,Book a Single room end-to-end with valid data,Happy path,"AC1, AC3, AC9",Y,Y,N,-,Y,Y,,Expected result is specific (Booking Confirmed + exact range). Agree.,Keep
+TC-002,Dates selected on the home page are carried to the room page,Happy path,AC1,Y,Y,N,-,Y,Y,,"The room page doesn't show where to check the dates; the expected result should say where to check: nights in the price summary. (Corrected 2026-10-19: the calendar does mark selected nights, but always opens on the current month; see lessons learned L-20.)",Edit
+TC-003,"Price summary for a Single room, 2 nights",Happy path,AC2,Y,Y,N,-,Y,Y,,Exact total (£240) makes any calculation bug fail. Agree.,Keep
+TC-004,"Price summary for a Double room, 3 nights",Happy path,AC2,Y,Y,N,-,Y,Y,,Exact total (£490). Agree.,Keep
+TC-005,"Price summary for a Suite, 1 night",Happy path,AC2,Y,Y,N,-,Y,Y,,Exact total (£265). Agree.,Keep
+TC-006,"First click on ""Reserve Now"" displays the booking form",Happy path,AC3,Y,Y,N,-,Y,Y,,Agree.,Keep
+TC-007,Confirmation for a Suite shows the booked date range,Happy path,"AC1, AC9",Y,Y,N,TC-001,Y,Y,,"Near-duplicate of TC-001: same end-to-end flow, only the room changes. Suggest Duplicate of = TC-001, or keep it only if room-specific coverage is wanted.",Remove
+TC-008,Submit the booking form with all fields empty,Negative,"AC4, AC5, AC6, AC7, AC8",Y,Y,N,-,Y,Y,,"Expects an error per field. Real app shows 7 messages, some without a field name, so a strict tester would fail it (exposes BUG-05). Agree.",Keep
+TC-009,Firstname empty,Negative,"AC4, AC8",Y,Y,N,-,Y,Y,,Agree.,Keep
+TC-010,Lastname empty,Negative,"AC5, AC8",Y,Y,N,-,Y,Y,,Agree.,Keep
+TC-011,Email empty,Negative,"AC6, AC8",Y,Y,N,-,Y,Y,,"Real app shows only ""must not be empty"" with no field name, so this case can expose BUG-05. Agree.",Keep
+TC-012,Phone empty,Negative,"AC7, AC8",Y,Y,N,-,Y,Y,,Agree.,Keep
+TC-013,Email with invalid formats,Negative,"AC6, AC8",Y,Y,N,-,Y,Y,,"Good invalid set. Missing ""test@test"" (no TLD), which the app accepts. Agree with Y.",Keep
+TC-014,Book exactly the same dates that are already booked,Negative,AC10,Y,Y,N,-,Y,N,,"Weak oracle: ""booking is not created"" also holds when the page crashes (BUG-01), so a tester following it would mark Pass. Should require a clear unavailability message and no error page.",Edit
+TC-015,Book a range that partially overlaps an existing booking,Negative,AC10,Y,Y,N,-,Y,N,,Same weakness as TC-014 (BUG-01 would pass).,Edit
+TC-016,Check Out before Check In,Negative,AC11,Y,Y,N,-,Y,N,,"Only checks that no booking is created. Does not check the price summary (negative nights and total, BUG-02) or that a clear message appears (crash, BUG-01). Both bugs would pass.",Edit
+TC-017,Check Out on the same day as Check In,Edge/Boundary,AC11,Y,Y,N,-,Y,N,,Same gap as TC-016: no check of price summary (0 nights?) or of the message shown.,Edit
+TC-018,Firstname with 2 characters (below minimum),Edge/Boundary,"AC4, AC8",Y,Y,N,-,Y,Y,,Agree.,Keep
+TC-019,Firstname with 19 characters (above maximum),Edge/Boundary,"AC4, AC8",Y,Y,N,-,Y,Y,,Agree. Good note about maxlength blocking input.,Keep
+TC-020,Lastname with 2 characters (below minimum),Edge/Boundary,"AC5, AC8",Y,Y,N,-,Y,Y,,Agree.,Keep
+TC-021,Lastname with 31 characters (above maximum),Edge/Boundary,"AC5, AC8",Y,Y,N,-,Y,Y,,Agree.,Keep
+TC-022,Phone with 10 characters (below minimum),Edge/Boundary,"AC7, AC8",Y,Y,N,-,Y,Y,,Agree.,Keep
+TC-023,Phone with 22 characters (above maximum),Edge/Boundary,"AC7, AC8",Y,Y,N,-,Y,Y,,Agree.,Keep
+TC-024,Minimum valid lengths in all fields,Edge/Boundary,"AC4, AC5, AC7, AC9",Y,Y,N,-,Y,Y,,Agree.,Keep
+TC-025,Maximum valid lengths in all fields,Edge/Boundary,"AC4, AC5, AC7, AC9",Y,Y,N,-,Y,Y,,Agree.,Keep
+TC-026,One-night booking (minimum stay),Edge/Boundary,"AC2, AC9, AC11",Y,Y,N,-,Y,Y,,Exact total (£140). Agree.,Keep
+TC-027,Booking that starts on the Check Out day of an existing booking,Edge/Boundary,AC10,Y,Y,N,-,Y,Y,,Assumption is flagged in Notes as asked. Agree.,Keep
+TC-028,Firstname with spaces only,Edge/Boundary,"AC4, AC8",Y,Y,N,-,Y,Y,,Agree.,Keep
+TC-029,Room page reached from the home page keeps the selected dates,Happy path,"AC12, AC1",Y,Y,N,TC-002,Y,Y,,Duplicate of TC-002: both check that dates go from the home page to the room page. Suggest Duplicate of = TC-002.,Remove
+TC-030,Room page opened directly by URL without selecting dates,Edge/Boundary,AC12,Y,Y,N,-,Y,Y,,"""Shows valid dates or asks to select them"" would fail on £NaN and ""Failed to create booking"", so it can expose a BUG-03-type defect. Agree.",Keep
+TC-031,Reload the room page after selecting dates,Edge/Boundary,AC12,Y,Y,N,-,Y,Y,,Agree.,Keep
+TC-032,Change dates on the home page and return to the room,Edge/Boundary,"AC1, AC12",Y,Y,N,-,Y,Y,,"Step 1 is ambiguous: browser Back vs. Home link should be separate tests. Expected result should check the price summary (2 nights). (Corrected 2026-10-19: the calendar marks selected nights but opens on the current month, so the URL and price summary are the reliable checks; see L-20.)",Edit + split (TC-032B)
+TC-033,Script injection in Lastname,Security,"AC5, AC9",Y,Y,N,-,Y,Y,,Agree.,Keep
+TC-034,SQL injection in Firstname,Security,"AC4, AC9",Y,Y,N,-,Y,Y,,Agree.,Keep
+TC-035,Bypass client-side validation,Security,AC8,Y,Y,N,-,Y,Y,,"Agree. Errors in this app come from the server, so this case mostly confirms that.",Keep
+TC-036,Double click on submit creates no duplicate booking,Edge/Boundary,AC10,Y,Y,N,-,Y,Y,,"Executable only partly: verifying ""no duplicate"" needs a way to list bookings. The Admin panel exists, so the step should say to check there.",Edit
+TC-037,Tamper with the dates in the URL to book occupied dates,Security,"AC1, AC10",Y,Y,N,-,Y,N,,"Same weak oracle as TC-014: a crash would pass as ""booking not created"".",Edit
+TC-038,Error messages make the invalid field identifiable,UX,AC8,Y,Y,N,-,Y,Y,,Directly catches BUG-05. Agree.,Keep
+TC-039,"""Cancel"" button closes the form without booking",UX,AC3,Y,Y,N,-,Y,Y,,Agree.,Keep
+TC-040,Price summary shows the full breakdown,UX,AC2,Y,Y,N,"TC-003, TC-004",Y,Y,,Overlaps TC-003/TC-004 (same breakdown check). Low added value; could be merged.,Remove
